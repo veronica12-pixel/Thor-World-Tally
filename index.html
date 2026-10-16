@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light only">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Thor World Tally</title>
 <meta name="apple-mobile-web-app-title" content="World Tally">
@@ -16,7 +17,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 /* Layout: pastel scoreboard with each traveler's split-flap score centered over their own column, two columns side by side, bottom-pinned nav with a raised 3D + */
-:root{
+:root{color-scheme:light;
   --bg:#f5f2fa; --surface:#fffdfc; --ink:#3a3450; --muted:#7c7590; --line:#e7e1ef;
   --board:#e4e6fb; --board-ink:#3a3450; --board-muted:#6f6a8c; --board-line:#7fb0e6;
   --tile:#fffdfc; --tile-edge:#c3c7ec;
@@ -37,46 +38,10 @@
   --sc-sun:#ffc928; --sc-cloud:#ffffff; --sc-plane:#ffffff; --sc-trail:#5d7fd6;
   --sc-water:#3dbdf5; --sc-wave:#e3f6ff; --sc-pier:#e9c48f; --sc-pier-d:#bf8c4f; --sc-sail:#ffffff; --sc-sail-d:#6f8fd6;
   --sc-hull:#2a58c4; --sc-hull-line:#ff4f73; --sc-deck:#ffffff; --sc-funnel:#ff3d3d; --sc-window:#3dbdf5;
-  --sc-sand:#ffd27a; --t3:#3f9a76; --t3-pastel:#c9eedd; --t3-edge:#8fceb3; --t4:#8a6fd1; --t4-pastel:#e2daf8; --t4-edge:#b9aae6; --sc-hill:#9fdcb4; --sc-hill-d:#6cc493; --sc-marble:#ffffff; --sc-marble-d:#d9d4ec; --sc-gold:#ffc21f; --sc-gold-d:#d1900a; --sc-lime:#c9c1b3; --sc-cave:#6e6457; --sc-rock:#7f9c74; --sc-stone:#f4f1ea; --sc-stone-d:#b9b2a3; --sc-pyr:#f5c46a; --sc-pyr-d:#d99a32; --sc-lib:#57c4a5; --sc-ben:#e6b979; --sc-ben-d:#9f6d34; --sc-fuji:#6f86e0; --sc-blossom:#ffb3cf; --sc-moai:#8e8a83; --sc-moai-d:#5c5852; --map-sea-a:#bfe6ff; --map-sea-b:#9fd6fb; --map-land:#e9e4f2; --map-stroke:#ffffff; --sc-pisa:#fffaf0; --sc-pisa-d:#c7a46e; --sc-mount:#8ea6ec; --sc-snow:#ffffff; --sc-hib1:#ff2e63; --sc-hib2:#ff8a1f; --sc-hib-c:#b30f3a; --sc-plum:#ffffff; --sc-roof:#ea5a43; --sc-bronze:#d9a03c; --sc-bronze-d:#a3721f; --sc-spout:#bfeaff; --sc-gondola:#262033; --sc-trunk:#a5622a; --sc-frond:#22b866;
+  --sc-sand:#ffd27a; --t3:#3f9a76; --t3-pastel:#c9eedd; --t3-edge:#8fceb3; --t4:#8a6fd1; --t4-pastel:#e2daf8; --t4-edge:#b9aae6; --sc-hill:#9fdcb4; --sc-hill-d:#6cc493; --star:#ff3b5c; --star-edge:#b8183a; --star-ink:#ffffff; --sc-marble:#ffffff; --sc-marble-d:#d9d4ec; --sc-gold:#ffc21f; --sc-gold-d:#d1900a; --sc-lime:#c9c1b3; --sc-cave:#6e6457; --sc-rock:#7f9c74; --sc-stone:#f4f1ea; --sc-stone-d:#b9b2a3; --sc-pyr:#f5c46a; --sc-pyr-d:#d99a32; --sc-lib:#57c4a5; --sc-ben:#e6b979; --sc-ben-d:#9f6d34; --sc-fuji:#6f86e0; --sc-blossom:#ffb3cf; --sc-moai:#8e8a83; --sc-moai-d:#5c5852; --map-sea-a:#bfe6ff; --map-sea-b:#9fd6fb; --map-land:#e9e4f2; --map-stroke:#ffffff; --sc-pisa:#fffaf0; --sc-pisa-d:#c7a46e; --sc-mount:#8ea6ec; --sc-snow:#ffffff; --sc-hib1:#ff2e63; --sc-hib2:#ff8a1f; --sc-hib-c:#b30f3a; --sc-plum:#ffffff; --sc-roof:#ea5a43; --sc-bronze:#d9a03c; --sc-bronze-d:#a3721f; --sc-spout:#bfeaff; --sc-gondola:#262033; --sc-trunk:#a5622a; --sc-frond:#22b866;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#1d1a28; --surface:#28243a; --ink:#f1edf8; --muted:#b1aac4; --line:#3b3552;
-  --board:#2e2b4a; --board-ink:#f1edf8; --board-muted:#b8b4d8; --board-line:#141a4f;
-  --tile:#3b3760; --tile-edge:#1f1c36;
-  --accent:#f5d58a; --accent-edge:#b9984d; --accent-ink:#3d2d06;
-  --at:#f4a6b5; --at-pastel:#5a3644; --at-edge:#3a2029;
-  --kirk:#9cc6f0; --kirk-pastel:#2e4560; --kirk-edge:#1b2b3f;
-  --mint:#9fd8bf; --mint-edge:#5f9b80; --mint-ink:#123526;
-  --btn:#39334f; --btn-edge:#221e33;
-  --danger:#ff9aa9;
-  --sky-a:#232a78; --sky-b:#b14f8e;
-  --sc-far:#37439a; --sc-wall:#d9b46f; --sc-wall-d:#8c6026; --sc-ground:#1d9a62; --sc-line:#dfe3ff;
-  --sc-eiffel:#7a84c4; --sc-colos:#e49a52; --sc-colos-d:#9c561d;
-  --sc-basil:#b97585; --sc-basil-d:#8c5260; --sc-dome1:#7cc4a3; --sc-dome2:#7fb0e3; --sc-dome3:#e0bb5c; --sc-dome4:#ff6f97; --sc-dome5:#9d8ce0;
-  --sc-sun:#ffe7a1; --sc-cloud:#5960b4; --sc-plane:#ffffff; --sc-trail:#a3b0ff;
-  --sc-water:#1773c4; --sc-wave:#8fd0ff; --sc-pier:#b98a52; --sc-pier-d:#835a2c; --sc-sail:#f4f2ff; --sc-sail-d:#8c98e6;
-  --sc-hull:#8fb2ff; --sc-hull-line:#ff6f8e; --sc-deck:#f4f2ff; --sc-funnel:#ff5757; --sc-window:#1773c4;
-  --sc-sand:#d3a04e; --t3:#8fdcb9; --t3-pastel:#264a3e; --t3-edge:#16302a; --t4:#c3b2f2; --t4-pastel:#3d3462; --t4-edge:#251f40; --sc-hill:#2d6e58; --sc-hill-d:#23584a; --sc-marble:#efeaff; --sc-marble-d:#a39cc8; --sc-gold:#f2b52a; --sc-gold-d:#a8730c; --sc-lime:#8e877c; --sc-cave:#3d362d; --sc-rock:#4f7350; --sc-stone:#e9e5dc; --sc-stone-d:#9a9384; --sc-pyr:#d9a54f; --sc-pyr-d:#a87321; --sc-lib:#47b393; --sc-ben:#c99a5c; --sc-ben-d:#7a5123; --sc-fuji:#5566c4; --sc-blossom:#f08db3; --sc-moai:#79756f; --sc-moai-d:#46423d; --map-sea-a:#1d2a5c; --map-sea-b:#18234d; --map-land:#3b3655; --map-stroke:#1d1a28; --sc-pisa:#f1e8d6; --sc-pisa-d:#a8875a; --sc-mount:#4650b0; --sc-snow:#e3e6ff; --sc-hib1:#ff4877; --sc-hib2:#ff9a3d; --sc-hib-c:#8c0b2f; --sc-plum:#ffffff; --sc-roof:#d24a37; --sc-bronze:#d3a04a; --sc-bronze-d:#8f631c; --sc-spout:#8fd0ff; --sc-gondola:#0c0b14; --sc-trunk:#8c5322; --sc-frond:#29b36b;
-  color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#1d1a28; --surface:#28243a; --ink:#f1edf8; --muted:#b1aac4; --line:#3b3552;
-  --board:#2e2b4a; --board-ink:#f1edf8; --board-muted:#b8b4d8; --board-line:#141a4f;
-  --tile:#3b3760; --tile-edge:#1f1c36;
-  --accent:#f5d58a; --accent-edge:#b9984d; --accent-ink:#3d2d06;
-  --at:#f4a6b5; --at-pastel:#5a3644; --at-edge:#3a2029;
-  --kirk:#9cc6f0; --kirk-pastel:#2e4560; --kirk-edge:#1b2b3f;
-  --mint:#9fd8bf; --mint-edge:#5f9b80; --mint-ink:#123526;
-  --btn:#39334f; --btn-edge:#221e33;
-  --danger:#ff9aa9;
-  --sky-a:#232a78; --sky-b:#b14f8e;
-  --sc-far:#37439a; --sc-wall:#d9b46f; --sc-wall-d:#8c6026; --sc-ground:#1d9a62; --sc-line:#dfe3ff;
-  --sc-eiffel:#7a84c4; --sc-colos:#e49a52; --sc-colos-d:#9c561d;
-  --sc-basil:#b97585; --sc-basil-d:#8c5260; --sc-dome1:#7cc4a3; --sc-dome2:#7fb0e3; --sc-dome3:#e0bb5c; --sc-dome4:#ff6f97; --sc-dome5:#9d8ce0;
-  --sc-sun:#ffe7a1; --sc-cloud:#5960b4; --sc-plane:#ffffff; --sc-trail:#a3b0ff;
-  --sc-water:#1773c4; --sc-wave:#8fd0ff; --sc-pier:#b98a52; --sc-pier-d:#835a2c; --sc-sail:#f4f2ff; --sc-sail-d:#8c98e6;
-  --sc-hull:#8fb2ff; --sc-hull-line:#ff6f8e; --sc-deck:#f4f2ff; --sc-funnel:#ff5757; --sc-window:#1773c4;
-  --sc-sand:#d3a04e; --t3:#8fdcb9; --t3-pastel:#264a3e; --t3-edge:#16302a; --t4:#c3b2f2; --t4-pastel:#3d3462; --t4-edge:#251f40; --sc-hill:#2d6e58; --sc-hill-d:#23584a; --sc-marble:#efeaff; --sc-marble-d:#a39cc8; --sc-gold:#f2b52a; --sc-gold-d:#a8730c; --sc-lime:#8e877c; --sc-cave:#3d362d; --sc-rock:#4f7350; --sc-stone:#e9e5dc; --sc-stone-d:#9a9384; --sc-pyr:#d9a54f; --sc-pyr-d:#a87321; --sc-lib:#47b393; --sc-ben:#c99a5c; --sc-ben-d:#7a5123; --sc-fuji:#5566c4; --sc-blossom:#f08db3; --sc-moai:#79756f; --sc-moai-d:#46423d; --map-sea-a:#1d2a5c; --map-sea-b:#18234d; --map-land:#3b3655; --map-stroke:#1d1a28; --sc-pisa:#f1e8d6; --sc-pisa-d:#a8875a; --sc-mount:#4650b0; --sc-snow:#e3e6ff; --sc-hib1:#ff4877; --sc-hib2:#ff9a3d; --sc-hib-c:#8c0b2f; --sc-plum:#ffffff; --sc-roof:#d24a37; --sc-bronze:#d3a04a; --sc-bronze-d:#8f631c; --sc-spout:#8fd0ff; --sc-gondola:#0c0b14; --sc-trunk:#8c5322; --sc-frond:#29b36b;
-  color-scheme:dark}
+
+
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -431,6 +396,16 @@ input[type="month"].field{-webkit-appearance:none;appearance:none;min-height:46p
 @media (min-width:640px){.board{padding-bottom:118px!important}}
 .skyline{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:visible}
 
+/* ---------- times visited: a small number after the country name, in the traveler's color ---------- */
+.tnum{margin-left:.35em;font-size:.82em;font-weight:800;color:var(--tc);font-variant-numeric:tabular-nums}
+.times-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.times-row .lbl{margin:0}
+.stepper{display:flex;align-items:center;gap:10px}
+.stp{width:40px;height:40px;border:0;border-radius:12px;background:var(--btn);color:var(--ink);font-size:22px;font-weight:700;line-height:1;box-shadow:0 4px 0 var(--btn-edge)}
+.stp:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--btn-edge)}
+.stp:disabled{opacity:.4}
+.stp-n{min-width:2.2em;text-align:center;font-size:22px;font-weight:800;color:var(--tc)}
+
 </style>
 </head>
 <body>
@@ -499,7 +474,7 @@ const SOURCE="<!doctype html>\n"+document.documentElement.outerHTML;
 const BUILTIN_SYNC={apiKey:"AIzaSyAWWDBNTTDvQI3IktyaCJtxse7s54oxDus",authDomain:"household-tasks-cb3ca.firebaseapp.com",databaseURL:"https://household-tasks-cb3ca-default-rtdb.firebaseio.com",projectId:"household-tasks-cb3ca",storageBucket:"household-tasks-cb3ca.firebasestorage.app",messagingSenderId:"719926406482",appId:"1:719926406482:web:28ccdd630bea4531079e8b"};
 let EMBED_SYNC=BUILTIN_SYNC;try{const el=document.getElementById("syncConfig");if(el)EMBED_SYNC=JSON.parse(el.textContent)||BUILTIN_SYNC}catch(e){EMBED_SYNC=BUILTIN_SYNC}
 let SEED=[],SEED_TRAVELERS=null;try{const el=document.getElementById("seedData");if(el){const d=JSON.parse(el.textContent);if(Array.isArray(d))SEED=d;else if(d){SEED=Array.isArray(d.visits)?d.visits:[];SEED_TRAVELERS=d.travelers||null}}}catch(e){SEED=[]}
-const APP_VERSION="v3.6"; // raise this with every new copy of the app
+const APP_VERSION="v4.0"; // raise this with every new copy of the app
 let appUnlocked=false; // master edit lock, opened from the © 2026 Thor window
 /* ---------- Country data (every place is shown and counted as a country) ---------- */
 const RAW = {
@@ -681,6 +656,9 @@ function cityEditor(root,initial){
     setDisabled(d){off=d;inp.disabled=d;mon.disabled=d;btn.disabled=d;paint();root.classList.toggle("off",d)}
   };
 }
+// times visited: set by hand in the edit window; otherwise the number of different trip dates
+function timesOf(v){const t=+v.times;if(t>=1)return Math.min(99,Math.round(t));const d=new Set(citiesOf(v).map(c=>c.month).filter(Boolean));return Math.max(1,d.size)}
+const starBadge=n=>n>1?`<span class="tnum" title="Visited ${n} times" aria-label="visited ${n} times">${n}</span>`:"";
 function citySummary(l){
   const months=l.map(c=>c.month).filter(Boolean).sort();
   if(!months.length) return "";
@@ -734,7 +712,7 @@ function fillList(id,arr,otherSets,t){
     const one=cl.length===1?`<span class="city"><span class="cn">${esc(cl[0].name)}</span>${cl[0].month?`<span class="cd">${esc(fmtMonth(cl[0].month))}</span>`:""}</span>`:"";
     const more=cl.length>1?`<button class="more" type="button" data-open="${esc(v.id)}" aria-expanded="${isOpen}"><span>${cl.length} cities${dates?` · ${esc(dates)}`:""}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>`+
       (isOpen?`<ul class="city-list">${cl.map(x=>`<li><span class="cn">${esc(x.name)}</span>${x.month?`<span class="cd">${esc(fmtMonth(x.month))}</span>`:""}</li>`).join("")}</ul>`:""):"";
-    return `<li class="entry"><button class="item" type="button" data-id="${esc(v.id)}"><span class="flag" aria-hidden="true">${flag(c.iso)}</span><span class="txt"><span class="name">${esc(nameFor(c.name))}</span>${one}${meta?`<span class="meta">${meta}</span>`:""}</span></button>${more}</li>`;
+    return `<li class="entry"><button class="item" type="button" data-id="${esc(v.id)}"><span class="flag" aria-hidden="true">${flag(c.iso)}</span><span class="txt"><span class="name">${esc(nameFor(c.name))}${starBadge(timesOf(v))}</span>${one}${meta?`<span class="meta">${meta}</span>`:""}</span></button>${more}</li>`;
   }).join("");
 }
 function renderCont(T,sets){
@@ -805,7 +783,7 @@ function paintMap(){
   if(mapPick&&COUNTRIES[mapPick]){
     const c=COUNTRIES[mapPick], who=activeTravelers().filter(t=>byWho(t.id).some(v=>v.iso===mapPick));
     const mine=byWho(mapWho).find(v=>v.iso===mapPick), cl=mine?sortCities(citiesOf(mine)).filter(x=>x.name):[];
-    info.innerHTML=`<span class="flag">${flag(mapPick)}</span><span class="mi-txt"><b>${esc(c.name)}</b><span>${who.length?"Visited by "+who.map(t=>esc(t.name)).join(", "):"Not visited yet"}${cl.length?` · ${cl.map(x=>esc(x.name)).join(", ")}`:""}</span></span>`;
+    info.innerHTML=`<span class="flag">${flag(mapPick)}</span><span class="mi-txt"><b>${esc(c.name)}</b><span>${who.length?"Visited by "+who.map(t=>esc(t.name)).join(", "):"Not visited yet"}${mine&&timesOf(mine)>1?` · ${timesOf(mine)} times`:""}${cl.length?` · ${cl.map(x=>esc(x.name)).join(", ")}`:""}</span></span>`;
   } else info.textContent="Tap a country to see it.";
   document.getElementById("world").style.width=(mapZoom*100)+"%";
 }
@@ -928,6 +906,7 @@ function openEdit(id){
     <div class="sheet-head"><h2 id="editTitle">${esc(nameOf(v.who))}'s entry</h2><button class="x" id="closeEdit" type="button">Close</button></div>
     <div class="picked"><span class="flag" aria-hidden="true">${flag(c.iso)}</span>${esc(c.name)}</div>
     <div class="lockline" id="lockLine"></div>
+    <div class="times-row"><span class="lbl" id="timesLbl">Times visited</span><div class="stepper" role="group" aria-labelledby="timesLbl"><button type="button" class="stp" id="tMinus" aria-label="One less">−</button><span class="stp-n" id="tVal" aria-live="polite" style="${styleOf(v.who)}"></span><button type="button" class="stp" id="tPlus" aria-label="One more">+</button></div></div>
     <div><label class="lbl" for="editCity">Cities and dates</label><div id="editCities" data-input-id="editCity"></div></div>
     <div class="actions">
       <button class="lockbtn" id="lockBtn" type="button"></button>
@@ -937,9 +916,13 @@ function openEdit(id){
   </div></div>`;
   const lb=host.querySelector("#lockBtn"), line=host.querySelector("#lockLine");
   const cityBox=cityEditor(host.querySelector("#editCities"),citiesOf(v));
+  let times=timesOf(v); const tVal=host.querySelector("#tVal");
+  const paintT=()=>{tVal.textContent=times;host.querySelector("#tMinus").disabled=!editable()||times<=1;host.querySelector("#tPlus").disabled=!editable()||times>=99};
+  host.querySelector("#tMinus").onclick=()=>{if(times>1){times--;paintT()}};
+  host.querySelector("#tPlus").onclick=()=>{if(times<99){times++;paintT()}};
   const fields=[host.querySelector("#delBtn"),host.querySelector("#saveEdit")];
   function paint(){
-    const ok=editable(); fields.forEach(f=>f.disabled=!ok); cityBox.setDisabled(!ok);
+    const ok=editable(); fields.forEach(f=>f.disabled=!ok); cityBox.setDisabled(!ok); paintT();
     if(!autoLocked){lb.disabled=true;lb.dataset.state="open";lb.innerHTML=UNLOCK_SVG;lb.setAttribute("aria-label","Editable");
       line.innerHTML=`${UNLOCK_SVG}<span>Editable for ${hoursLeft} more ${hoursLeft===1?"hour":"hours"}, then it locks.</span>`}
     else if(appUnlocked){lb.disabled=false;lb.dataset.state="open";lb.innerHTML=UNLOCK_SVG;lb.setAttribute("aria-label","Lock editing");
@@ -956,7 +939,7 @@ function openEdit(id){
   };
   host.querySelector("#saveEdit").onclick=async()=>{
     const cities=cityBox.get();
-    try{await store.update(v.id,{month:latestMonth(cities),cities,note:cities.map(c=>c.name).filter(Boolean).join(", ")});closeSheet();toast("Saved")}catch(err){toast("Couldn't save. Try again.")}
+    try{await store.update(v.id,{month:latestMonth(cities),cities,times,note:cities.map(c=>c.name).filter(Boolean).join(", ")});closeSheet();toast("Saved")}catch(err){toast("Couldn't save. Try again.")}
   };
 }
 /* ---------- © 2026 Thor window: save as HTML / JSON, open a JSON file, master lock ---------- */
@@ -1019,7 +1002,7 @@ async function importJson(file){
 /* ---------- Excel import ---------- */
 const XLSX_SRC="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
 const normTxt=t=>String(t??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/&/g," and ").replace(/[^a-z0-9]+/g," ").trim();
-const ALIAS={"usa":"US","u s a":"US","u s":"US","us":"US","united states of america":"US","america":"US","hawaii":"US","alaska":"US","uk":"GB","u k":"GB","england":"GB","scotland":"GB","wales":"GB","northern ireland":"GB","great britain":"GB","britain":"GB","turkey":"TR","turkiye":"TR","czech republic":"CZ","holland":"NL","the netherlands":"NL","vatican":"VA","holy see":"VA","ivory coast":"CI","swaziland":"SZ","macedonia":"MK","burma":"MM","east timor":"TL","cape verde":"CV","russian federation":"RU","korea":"KR","republic of korea":"KR","uae":"AE","emirates":"AE","dubai":"AE","abu dhabi":"AE","st lucia":"LC","st kitts":"KN","st kitts and nevis":"KN","saint kitts":"KN","st vincent":"VC","st maarten":"SX","st martin":"SX","saint martin":"SX","tahiti":"PF","bora bora":"PF","moorea":"PF","drc":"CD","democratic republic of the congo":"CD","congo kinshasa":"CD","republic of the congo":"CG","congo brazzaville":"CG","bosnia":"BA","trinidad":"TT","antigua":"AG","italia":"IT","espana":"ES","deutschland":"DE","schweiz":"CH","suisse":"CH","cayman":"KY","grand cayman":"KY","cayman islands":"KY","grand cayman island":"KY","george town":"KY","the bahamas":"BS","the gambia":"GM","viet nam":"VN","palestinian territories":"PS","prc":"CN","sao tome":"ST","cote d ivoire":"CI","curacao":"CW","usvi":"VI","u s virgin islands":"VI","us virgin islands":"VI","united states virgin islands":"VI","virgin islands u s":"VI","virgin islands us":"VI","virgin islands of the united states":"VI","american virgin islands":"VI","hong kong":"HK","hong kong sar":"HK","hong kong s a r":"HK","hongkong":"HK","turks and caicos":"TC","turks caicos":"TC","providenciales":"TC","grand turk":"TC","willemstad":"CW","caribbean netherlands":"BQ","kralendijk":"BQ","st thomas":"VI","st croix":"VI","st john":"VI","faroe":"FO","falklands":"FK","micronesia federated states of":"FM"};
+const ALIAS={"usa":"US","u s a":"US","u s":"US","us":"US","united states of america":"US","america":"US","hawaii":"US","alaska":"US","uk":"GB","u k":"GB","england":"GB","scotland":"GB","wales":"GB","northern ireland":"GB","great britain":"GB","britain":"GB","turkey":"TR","turkiye":"TR","czech republic":"CZ","holland":"NL","the netherlands":"NL","vatican":"VA","holy see":"VA","ivory coast":"CI","swaziland":"SZ","macedonia":"MK","burma":"MM","east timor":"TL","cape verde":"CV","russian federation":"RU","korea":"KR","republic of korea":"KR","uae":"AE","emirates":"AE","dubai":"AE","abu dhabi":"AE","st lucia":"LC","st kitts":"KN","st kitts and nevis":"KN","saint kitts":"KN","st vincent":"VC","st maarten":"SX","st martin":"SX","saint martin":"SX","tahiti":"PF","bora bora":"PF","moorea":"PF","drc":"CD","democratic republic of the congo":"CD","congo kinshasa":"CD","republic of the congo":"CG","congo brazzaville":"CG","bosnia":"BA","trinidad":"TT","antigua":"AG","italia":"IT","espana":"ES","deutschland":"DE","schweiz":"CH","suisse":"CH","cayman":"KY","grand cayman":"KY","cayman islands":"KY","grand cayman island":"KY","george town":"KY","the bahamas":"BS","the gambia":"GM","viet nam":"VN","palestinian territories":"PS","prc":"CN","sao tome":"ST","cote d ivoire":"CI","curacao":"CW","galapagos":"EC","galapagos islands":"EC","quito":"EC","guayaquil":"EC","azores":"PT","the azores":"PT","madeira":"PT","canary islands":"ES","canaries":"ES","tenerife":"ES","usvi":"VI","u s virgin islands":"VI","us virgin islands":"VI","united states virgin islands":"VI","virgin islands u s":"VI","virgin islands us":"VI","virgin islands of the united states":"VI","american virgin islands":"VI","hong kong":"HK","hong kong sar":"HK","hong kong s a r":"HK","hongkong":"HK","turks and caicos":"TC","turks caicos":"TC","providenciales":"TC","grand turk":"TC","willemstad":"CW","caribbean netherlands":"BQ","kralendijk":"BQ","st thomas":"VI","st croix":"VI","st john":"VI","faroe":"FO","falklands":"FK","micronesia federated states of":"FM"};
 const NAME_IDX={};
 for(const c of ALL){NAME_IDX[normTxt(c.name)]=c.iso;NAME_IDX[c.iso.toLowerCase()]=c.iso}
 const findIso=t=>{const n=normTxt(t);if(!n)return null;return NAME_IDX[n]||ALIAS[n]||NAME_IDX[n.replace(/^the /,"")]||null};
@@ -1050,11 +1033,11 @@ async function readExcel(file){
   const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:true,defval:""}).filter(r=>r.some(c=>String(c).trim()!==""));
   if(!rows.length)return{rows:[],cols:null};
   const head=rows[0].map(normTxt), find=re=>head.findIndex(h=>re.test(h));
-  let cols={who:find(/^(traveler|traveller|who|person|name|people)/),country:find(/country|nation/),city:find(/city|cities|town|place|port/),date:find(/date|when|month|year|visited/)};
+  let cols={who:find(/^(traveler|traveller|who|person|name|people)/),country:find(/country|nation/),city:find(/city|cities|town|place|port/),date:find(/date|when|month|year|visited/),times:find(/^(times|visits|trips|how many|count|n of)/)};
   let body=rows.slice(1);
   if(cols.country<0){ // no header row: guess the layout
     const first=rows[0]; const ci=first.findIndex(c=>findIso(c));
-    cols={who:first.findIndex(c=>whoFrom(c)&&!findIso(c)),country:ci<0?0:ci,city:-1,date:-1};
+    cols={who:first.findIndex(c=>whoFrom(c)&&!findIso(c)),country:ci<0?0:ci,city:-1,date:-1,times:-1};
     const rest=first.map((_,i)=>i).filter(i=>i!==cols.country&&i!==cols.who);
     cols.city=rest.find(i=>!monthFrom(first[i]))??-1; cols.date=rest.find(i=>i!==cols.city)??-1;
     body=rows;
@@ -1070,6 +1053,7 @@ function planImport(rows,cols,fallbackWho){
     const city=cols.city>=0?String(r[cols.city]).trim():"", month=cols.date>=0?monthFrom(r[cols.date]):"";
     for(const who of w){
       const key=`${who}_${iso}`; if(!plan.has(key))plan.set(key,{who,iso,cities:[]});
+      const tn=cols.times>=0?parseInt(r[cols.times],10):NaN; if(tn>=1){const p=plan.get(key);p.times=Math.max(p.times||0,Math.min(99,tn))}
       if(city||month){const p=plan.get(key);p.cities=mergeCities(p.cities,splitCities(city).length?splitCities(city).map(n=>({name:n,month})):[{name:"",month}])}
     }
     used++;
@@ -1080,8 +1064,9 @@ async function applyImport(plan){
   let added=0,updated=0; const noteOf=l=>l.map(c=>c.name).filter(Boolean).join(", ");
   for(const it of plan){
     const id=`${it.who}_${it.iso}`, ex=visits.find(v=>v.id===id), cl=sortCities(it.cities);
-    if(!ex){await store.set(id,{who:it.who,iso:it.iso,cities:cl,month:latestMonth(cl),note:noteOf(cl),createdAt:Date.now()});added++}
-    else{const m=sortCities(mergeCities(citiesOf(ex),cl));if(m.length>citiesOf(ex).length){await store.update(id,{cities:m,month:latestMonth(m),note:noteOf(m)});updated++}}
+    const tx=it.times?{times:it.times}:{};
+    if(!ex){await store.set(id,{who:it.who,iso:it.iso,cities:cl,month:latestMonth(cl),note:noteOf(cl),createdAt:Date.now(),...tx});added++}
+    else{const m=sortCities(mergeCities(citiesOf(ex),cl));const moreT=it.times&&it.times>timesOf(ex);if(m.length>citiesOf(ex).length||moreT){await store.update(id,{cities:m,month:latestMonth(m),note:noteOf(m),...(moreT?tx:{})});updated++}}
   }
   return{added,updated};
 }
@@ -1121,8 +1106,8 @@ async function downloadTemplate(){
   try{
     if(!window.XLSX) await loadScript(XLSX_SRC);
     const T=activeTravelers(), a=T[0].name, b=(T[1]||T[0]).name;
-    const ws=XLSX.utils.aoa_to_sheet([["Traveler","Country","City","Date"],[a,"Italy","Florence","2019-05"],[b,"Italy","Venice","2019-05"],[T.length>1?(T.length===2?"Both":"All"):a,"New Zealand","Auckland","2026-11"]]);
-    ws["!cols"]=[{wch:14},{wch:22},{wch:20},{wch:12}];
+    const ws=XLSX.utils.aoa_to_sheet([["Traveler","Country","City","Date","Times"],[a,"Italy","Florence","2019-05",4],[b,"Italy","Venice","2019-05",3],[T.length>1?(T.length===2?"Both":"All"):a,"New Zealand","Auckland","2026-11",1]]);
+    ws["!cols"]=[{wch:14},{wch:22},{wch:20},{wch:12},{wch:8}];
     const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Countries");
     XLSX.writeFile(wb,"thor-world-tally-template.xlsx"); toast("Saved thor-world-tally-template.xlsx");
   }catch(e){toast("Couldn't make the template. Check your connection.")}
