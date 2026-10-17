@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -110,14 +109,14 @@ button{cursor:pointer}
 .item .txt{min-width:0;flex:1 1 0}
 .item .name{font-size:16px;line-height:1.25;font-weight:600;overflow-wrap:break-word;hyphens:manual;display:block}
 .item .city{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline;font-size:13.5px;line-height:1.3;color:var(--ink)}
-.item .cn{overflow-wrap:anywhere;min-width:0}
+.item .cn{overflow-wrap:break-word;min-width:0}
 .more{display:flex;align-items:center;gap:6px;width:calc(100% - 24px);margin:-4px 8px 6px 60px;padding:4px 8px;border:0;border-radius:8px;background:var(--bg);color:var(--muted);font-size:12.5px;font-weight:600;text-align:left;width:auto;max-width:calc(100% - 68px)}
 .more span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .more svg{width:14px;height:14px;flex:none;transition:transform .15s}
 .more[aria-expanded="true"] svg{transform:rotate(180deg)}
 .city-list{list-style:none;margin:0 8px 8px 60px;padding:0 0 0 10px;border-left:2px solid var(--line);display:grid;gap:3px}
 .city-list li{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline;font-size:13.5px;line-height:1.3}
-.city-list .cn{overflow-wrap:anywhere;min-width:0}
+.city-list .cn{overflow-wrap:break-word;min-width:0}
 .city-list .cd{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
 @media (max-width:380px){.more,.city-list{margin-left:51px;margin-right:6px}.more{max-width:calc(100% - 57px)}}
 @media (min-width:640px){.more,.city-list{margin-left:76px;margin-right:12px}.more{max-width:calc(100% - 88px)}}
@@ -165,7 +164,7 @@ button{cursor:pointer}
 .imp-sum b{font-family:var(--display);font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
 .imp-sum span{font-size:12px;color:var(--muted)}
 .imp-warn{display:grid;gap:4px;background:var(--at-pastel);border-radius:12px;padding:10px 12px;font-size:13px}
-.imp-warn span{overflow-wrap:anywhere}
+.imp-warn span{overflow-wrap:break-word}
 .cfg{font-family:var(--mono);font-size:13px;resize:vertical}
 .lock-row{display:flex;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:14px}
 .lock-txt{display:grid;gap:2px;font-size:13px;color:var(--muted);min-width:0}
@@ -207,7 +206,7 @@ button{cursor:pointer}
 .res{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:var(--surface);border:0;padding:9px 12px}
 .res[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .res[aria-pressed="true"] .sub{color:var(--accent-ink)}
-.res .nm{flex:1;min-width:0;font-weight:600;font-size:16px;overflow-wrap:anywhere}
+.res .nm{flex:1;min-width:0;font-weight:600;font-size:16px;overflow-wrap:break-word}
 .res .sub{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
 .check{width:20px;height:20px;flex:none;border:1.5px solid var(--line);border-radius:6px;display:grid;place-items:center;font-size:13px;font-weight:700}
 .res[aria-pressed="true"] .check{border-color:var(--accent-ink)}
@@ -225,7 +224,7 @@ input[type="month"].city-month{-webkit-appearance:none;appearance:none;min-heigh
 .city-rows{list-style:none;margin:12px 0 0;padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .city-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:8px 8px 8px 12px;background:var(--surface)}
 .city-row+.city-row{border-top:1px solid var(--line)}
-.cr-name{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.cr-name{font-weight:600;min-width:0;overflow-wrap:break-word}
 .cr-date{font-family:var(--mono);font-size:12px;color:var(--muted)}
 .cr-x{width:32px;height:32px;border:0;border-radius:9px;background:var(--at-pastel);color:var(--danger);font-size:18px;line-height:1;box-shadow:0 3px 0 var(--at-edge)}
 .cr-x:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 var(--at-edge)}
@@ -317,7 +316,7 @@ input[type="month"].field{-webkit-appearance:none;appearance:none;min-height:46p
 .map-info .flag .flagimg{width:40px}
 .mi-txt{display:grid;gap:1px;min-width:0}
 .mi-txt b{color:var(--ink);font-size:16px}
-.mi-txt span{overflow-wrap:anywhere}
+.mi-txt span{overflow-wrap:break-word}
 .nav .tab{justify-self:stretch;max-width:150px;width:100%;margin:0 auto;padding:7px 10px;border-radius:16px;font-size:13px;font-weight:700;color:var(--ink);transition:transform .08s,box-shadow .08s}
 .nav .tab svg{width:24px;height:24px}
 #tabList{background:var(--kirk-pastel);box-shadow:0 4px 0 var(--kirk-edge)}
@@ -366,6 +365,8 @@ input[type="month"].field{-webkit-appearance:none;appearance:none;min-height:46p
 .save-opt{padding:10px 12px;border-radius:12px;gap:0;align-content:center;min-height:52px}
 .save-opt b{font-size:15px;line-height:1.2}
 .save-opt span{display:none}
+#soundBtn{background:var(--kirk-pastel);box-shadow:0 3px 0 var(--kirk-edge)!important}
+#soundBtn span{display:block;font-size:12px!important;font-weight:600}
 #syncBtn span{display:block;font-size:12px!important;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .save-grid .linkbtn{align-self:center;justify-self:center;margin:0}
 .save-opt{box-shadow:0 3px 0 var(--btn-edge)!important}
@@ -426,6 +427,29 @@ input[type="month"].field{-webkit-appearance:none;appearance:none;min-height:46p
 .cele-btn{margin-top:18px;width:100%;border:0;border-radius:16px;padding:15px;font-size:17px;font-weight:800;background:var(--mint,#bfe9d6);color:var(--mint-ink,#245a43);box-shadow:0 5px 0 var(--mint-edge,#8fceb3);cursor:pointer}
 .cele-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--mint-edge,#8fceb3)}
 @media (prefers-reduced-motion:reduce){.cele-card,.cele-plane{animation:none}.cele-rain img{animation-duration:calc(var(--d) * 2)}}
+
+/* ---------- large text settings: keep words whole and give names room ---------- */
+.res .nm{display:grid;gap:1px;flex:1 1 auto;min-width:0}
+.res .nm-t{overflow-wrap:break-word;hyphens:manual}
+.res .sub{display:block;white-space:normal;font-size:.72em;line-height:1.25}
+.res[aria-pressed="true"] .sub{color:var(--accent-ink)}
+.item .name,.item .cn,.city-list .cn,.cr-name,.mi-txt span,.res .nm-t{word-break:normal;overflow-wrap:break-word}
+/* when the phone's text size is turned up (the page gets "narrow" for its text), stack the lists one above the other */
+@media (max-width:23em){
+  .cols{grid-template-columns:minmax(0,1fr)!important}
+  .more,.city-list{margin-left:calc(var(--pad) + var(--flagw) + var(--gap))}
+  .score-name{font-size:.95rem}
+}
+@media (max-width:18em){
+  .scores{grid-template-columns:minmax(0,1fr)!important;gap:6px}
+  .item .flagimg{width:36px}
+}
+
+/* ---------- windows always fit the visible screen; Save stays reachable ---------- */
+.scrim{height:100vh;height:100dvh;inset:auto 0 0 0;top:0}
+.sheet{max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:0!important}
+.sticky-actions{position:sticky;bottom:0;z-index:2;background:var(--surface);margin:0 calc(-1 * max(18px,env(safe-area-inset-left,0px))) 0;padding:12px max(18px,env(safe-area-inset-left,0px)) calc(14px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 14px -10px rgba(40,30,80,.25)}
+.results{overscroll-behavior:contain}
 
 </style>
 </head>
@@ -495,7 +519,7 @@ const SOURCE="<!doctype html>\n"+document.documentElement.outerHTML;
 const BUILTIN_SYNC={apiKey:"AIzaSyAWWDBNTTDvQI3IktyaCJtxse7s54oxDus",authDomain:"household-tasks-cb3ca.firebaseapp.com",databaseURL:"https://household-tasks-cb3ca-default-rtdb.firebaseio.com",projectId:"household-tasks-cb3ca",storageBucket:"household-tasks-cb3ca.firebasestorage.app",messagingSenderId:"719926406482",appId:"1:719926406482:web:28ccdd630bea4531079e8b"};
 let EMBED_SYNC=BUILTIN_SYNC;try{const el=document.getElementById("syncConfig");if(el)EMBED_SYNC=JSON.parse(el.textContent)||BUILTIN_SYNC}catch(e){EMBED_SYNC=BUILTIN_SYNC}
 let SEED=[],SEED_TRAVELERS=null;try{const el=document.getElementById("seedData");if(el){const d=JSON.parse(el.textContent);if(Array.isArray(d))SEED=d;else if(d){SEED=Array.isArray(d.visits)?d.visits:[];SEED_TRAVELERS=d.travelers||null}}}catch(e){SEED=[]}
-const APP_VERSION="v4.2"; // raise this with every new copy of the app
+const APP_VERSION="v4.5"; // raise this with every new copy of the app
 let appUnlocked=false; // master edit lock, opened from the © 2026 Thor window
 /* ---------- Country data (every place is shown and counted as a country) ---------- */
 const RAW = {
@@ -693,7 +717,7 @@ let view="list";
 function byWho(w){return visits.filter(v=>v.who===w&&COUNTRIES[v.iso])}
 let lastScores={}, localChangeAt=0, celeQueue=[];
 function queueCelebrations(h){celeQueue.push(...h);if(!document.querySelector(".cele"))nextCelebration()}
-function nextCelebration(){const x=celeQueue.shift();if(!x)return;const [t,n]=x;celebrate(t.name,n,styleOf(t.id))}
+function nextCelebration(){const x=celeQueue.shift();if(!x)return;const [t,n]=x;try{celebrate(t.name,n,styleOf(t.id))}catch(e){}try{playFanfare()}catch(e){}}
 function render(){
   const T=activeTravelers(), n=T.length;
   const sets={}; for(const t of T) sets[t.id]=new Set(byWho(t.id).map(v=>v.iso));
@@ -707,7 +731,7 @@ function render(){
   if(Date.now()-localChangeAt<8000) for(const t of T){const was=lastScores[t.id],now=sovCount(sets[t.id]);
     if(was!==undefined&&now>=10&&Math.floor(now/10)>Math.floor(was/10)) hits.push([t,Math.floor(now/10)*10])}
   lastScores={}; for(const t of T) lastScores[t.id]=sovCount(sets[t.id]);
-  if(hits.length) queueCelebrations(hits);
+  if(hits.length) try{queueCelebrations(hits)}catch(e){} // a celebration problem must never block saving
   const cols=document.getElementById("cols"); cols.style.setProperty("--n",n);
   cols.innerHTML=T.map(t=>`<section class="col" style="${styleOf(t.id)}" aria-labelledby="h_${t.id}"><div class="col-head"><div class="who"><h2 id="h_${t.id}">${esc(t.name)}</h2><span class="n">${sovCount(sets[t.id])}</span></div></div><ul class="list" id="list_${t.id}"></ul></section>`).join("");
   for(const t of T){
@@ -826,6 +850,54 @@ document.getElementById("zoomIn").onclick=()=>zoomMap(1.6);
 document.getElementById("zoomOut").onclick=()=>zoomMap(1/1.6);
 
 
+/* ---------- fanfare: a short brass flourish played by the browser itself ---------- */
+let AC=null;
+function audioCtx(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();}catch(e){AC=null}return AC}
+// iPhones only allow sound after a tap, so the first tap anywhere prepares it
+document.addEventListener("pointerdown",()=>{const c=audioCtx();if(c&&!c._primed){const b=c.createBuffer(1,1,22050),s=c.createBufferSource();s.buffer=b;s.connect(c.destination);s.start(0);c._primed=true}},{passive:true});
+function soundOn(){try{return localStorage.getItem("countries-visited-sound")!=="off"}catch(e){return true}}
+function playFanfare(){
+  if(!soundOn())return; const c=audioCtx(); if(!c)return;
+  const t0=c.currentTime+.05, master=c.createGain(); master.gain.value=.55;
+  const comp=c.createDynamicsCompressor(); master.connect(comp); comp.connect(c.destination);
+  // a little hall echo so it sounds like a real brass section
+  const dl=c.createDelay(); dl.delayTime.value=.13; const fb=c.createGain(); fb.gain.value=.22; const wet=c.createGain(); wet.gain.value=.25;
+  master.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(comp);
+  const hz=n=>440*Math.pow(2,(n-69)/12);
+  function brass(note,start,dur,vol=.22){
+    const f=hz(note);
+    for(const [type,det,v] of [["sawtooth",-6,1],["sawtooth",6,.8],["square",0,.25]]){
+      const o=c.createOscillator(); o.type=type; o.frequency.value=f; o.detune.value=det;
+      const lp=c.createBiquadFilter(); lp.type="lowpass"; lp.Q.value=1.2;
+      lp.frequency.setValueAtTime(f*1.2,start); lp.frequency.linearRampToValueAtTime(f*6,start+.06); lp.frequency.exponentialRampToValueAtTime(f*3,start+dur);
+      const g=c.createGain(); g.gain.setValueAtTime(0,start); g.gain.linearRampToValueAtTime(vol*v,start+.03); g.gain.setValueAtTime(vol*v*.85,start+Math.max(.04,dur-.08)); g.gain.exponentialRampToValueAtTime(.0008,start+dur+.18);
+      const vib=c.createOscillator(), vg=c.createGain(); vib.frequency.value=5.5; vg.gain.value=dur>.4?f*.006:0; vib.connect(vg); vg.connect(o.frequency);
+      o.connect(lp); lp.connect(g); g.connect(master); o.start(start); vib.start(start); o.stop(start+dur+.25); vib.stop(start+dur+.25);
+    }
+  }
+  function drum(start,vol=.6){
+    const o=c.createOscillator(), g=c.createGain(); o.type="sine";
+    o.frequency.setValueAtTime(130,start); o.frequency.exponentialRampToValueAtTime(48,start+.35);
+    g.gain.setValueAtTime(vol,start); g.gain.exponentialRampToValueAtTime(.001,start+.5);
+    o.connect(g); g.connect(master); o.start(start); o.stop(start+.55);
+  }
+  function sparkle(start){
+    [96,100,103,108].forEach((n,i)=>{const o=c.createOscillator(),g=c.createGain();o.type="triangle";o.frequency.value=hz(n);
+      const s=start+i*.06; g.gain.setValueAtTime(0,s); g.gain.linearRampToValueAtTime(.05,s+.01); g.gain.exponentialRampToValueAtTime(.0005,s+.7);
+      o.connect(g); g.connect(master); o.start(s); o.stop(s+.75)});
+  }
+  // the tune (an original flourish): three quick pickups, a rising call, then a big held chord
+  const b=.15;
+  const line=[[67,0,b*.8],[67,b,b*.8],[67,2*b,b*.8],[72,3*b,b*2.6],[71,5.9*b,b*.9],[72,6.9*b,b*.9],[76,7.9*b,b*1.8],[74,9.8*b,b*.9],[79,10.8*b,b*6]];
+  line.forEach(([n,s,d])=>brass(n,t0+s,d));
+  // harmony underneath the long notes
+  brass(64,t0+3*b,b*2.6,.14); brass(60,t0+3*b,b*2.6,.12);
+  brass(72,t0+7.9*b,b*1.8,.12);
+  brass(76,t0+10.8*b,b*6,.15); brass(72,t0+10.8*b,b*6,.14); brass(67,t0+10.8*b,b*6,.13); brass(48,t0+10.8*b,b*6,.16);
+  drum(t0+3*b,.55); drum(t0+7.9*b,.45); drum(t0+10.8*b,.7); drum(t0+11.3*b,.35);
+  sparkle(t0+10.8*b);
+}
+
 /* ---------- milestone celebration: every 10 countries ---------- */
 const PLANE_SVG='<svg class="cele-plane" viewBox="-6 -14 40 28" aria-hidden="true"><g fill="#fff" stroke="#3f569e" stroke-width="1" stroke-linejoin="round"><path d="M9 2.2 L3 -8 L7 -8 L16 2.2 Z"/><path d="M9 2.2 L3 12.4 L7 12.4 L16 2.2 Z"/><path d="M0 0 L24 0 Q29 0.5 29 2.2 Q29 3.9 24 4.4 L0 4.4 Z"/><path d="M0.5 2 L-3 -5 L0.5 -5 L4.5 1 Z"/></g></svg>';
 function celebrate(name,n,style){
@@ -880,7 +952,7 @@ function openAdd(){
       ${T.map((t,i)=>`<button type="button" class="tbtn" data-w="${t.id}" style="${styleOf(t.id)}" aria-pressed="${i===0}">${esc(t.name)}</button>`).join("")}</div></div>
     <div><label class="lbl" for="q">Countries · tap as many as you like</label><input class="field" id="q" type="search" placeholder="Search, e.g. Fiji" autocomplete="off"><div class="chips" id="chips"></div><ul class="results" id="results"></ul></div>
     <div><label class="lbl" for="addCity">Cities and dates (optional)</label><div id="addCities" data-input-id="addCity"></div></div>
-    <div class="actions"><button class="btn primary" id="saveAdd" type="button" disabled>Save</button></div>
+    <div class="actions sticky-actions"><button class="btn primary" id="saveAdd" type="button" disabled>Save</button></div>
   </div></div>`;
   const q=host.querySelector("#q"), res=host.querySelector("#results"), save=host.querySelector("#saveAdd"), chips=host.querySelector("#chips");
   const has=(w,iso)=>visits.some(v=>v.who===w&&v.iso===iso);
@@ -898,12 +970,12 @@ function openAdd(){
     const rows=ALL.filter(c=>!s||c.name.toLowerCase().includes(s)||normTxt(c.name).includes(ns)||c.iso.toLowerCase()===s||viaAlias.has(c.iso));
     res.innerHTML=rows.map(c=>{
       const on=T.filter(t=>has(t.id,c.iso)).map(t=>t.name).join(" + ");
-      return `<li><button class="res" type="button" data-iso="${c.iso}" aria-pressed="${picked.has(c.iso)}"><span class="check" aria-hidden="true">${picked.has(c.iso)?"✓":""}</span><span class="flag" aria-hidden="true">${flag(c.iso)}</span><span class="nm">${esc(c.name)}</span><span class="sub">${on?"On: "+on:(c.terr?"Territory":CONT_NAME[c.cont].split(" ")[0])}</span></button></li>`}).join("")
+      return `<li><button class="res" type="button" data-iso="${c.iso}" aria-pressed="${picked.has(c.iso)}"><span class="check" aria-hidden="true">${picked.has(c.iso)?"✓":""}</span><span class="flag" aria-hidden="true">${flag(c.iso)}</span><span class="nm"><span class="nm-t">${esc(nameFor(c.name))}</span><span class="sub">${on?"On: "+esc(on):(c.terr?"Territory":CONT_NAME[c.cont].split(" ")[0])}</span></span></button></li>`}).join("")
       || `<li class="empty">No match. Check the spelling.</li>`;
   }
   list();
   q.addEventListener("input",list);
-  res.addEventListener("click",e=>{const b=e.target.closest(".res");if(!b)return;const i=b.dataset.iso;picked.has(i)?picked.delete(i):picked.add(i);const st=res.scrollTop;list();res.scrollTop=st;sync()});
+  res.addEventListener("click",e=>{const b=e.target.closest(".res");if(!b)return;if(document.activeElement===q)q.blur();const i=b.dataset.iso;picked.has(i)?picked.delete(i):picked.add(i);const st=res.scrollTop;list();res.scrollTop=st;sync()});
   const seg=host.querySelector("#whoSeg");
   const paintWho=()=>seg.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",whoSet.has(x.dataset.w)));
   const toggleWho=id=>{if(whoSet.has(id)){if(whoSet.size>1)whoSet.delete(id)}else whoSet.add(id);paintWho()};
@@ -960,7 +1032,7 @@ function openEdit(id){
     <div class="lockline" id="lockLine"></div>
     <div class="times-row"><span class="lbl" id="timesLbl">Times visited</span><div class="stepper" role="group" aria-labelledby="timesLbl"><button type="button" class="stp" id="tMinus" aria-label="One less">−</button><span class="stp-n" id="tVal" aria-live="polite" style="${styleOf(v.who)}"></span><button type="button" class="stp" id="tPlus" aria-label="One more">+</button></div></div>
     <div><label class="lbl" for="editCity">Cities and dates</label><div id="editCities" data-input-id="editCity"></div></div>
-    <div class="actions">
+    <div class="actions sticky-actions">
       <button class="lockbtn" id="lockBtn" type="button"></button>
       <button class="btn danger" id="delBtn" type="button">Delete</button>
       <button class="btn primary" id="saveEdit" type="button">Save</button>
@@ -1204,6 +1276,8 @@ function openSaveWindow(){
       <input type="file" id="openXls" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv" hidden>
       <button class="btn save-opt" id="syncBtn" type="button"><b>Sync devices</b><span id="syncState"></span></button>
       <button class="linkbtn" id="getTemplate" type="button">Download an Excel template</button>
+      <button class="btn save-opt" id="soundBtn" type="button"><b>Fanfare sound</b><span id="soundState"></span></button>
+      <button class="linkbtn" id="testSound" type="button">Play the fanfare</button>
     </div>
     <div class="trav-box" id="travBox"></div>
     <div class="lock-row">
@@ -1259,6 +1333,10 @@ function openSaveWindow(){
   const sc=syncConfig();
   host.querySelector("#syncState").textContent=sc?"On":"Off";
   host.querySelector("#syncBtn").onclick=openSyncSetup;
+  const paintSound=()=>host.querySelector("#soundState").textContent=soundOn()?"On":"Off";
+  paintSound();
+  host.querySelector("#soundBtn").onclick=()=>{try{localStorage.setItem("countries-visited-sound",soundOn()?"off":"on")}catch(e){}paintSound();if(soundOn())playFanfare()};
+  host.querySelector("#testSound").onclick=()=>{if(!soundOn()){toast("Turn the fanfare sound on first");return}playFanfare()};
 }
 document.getElementById("thorBtn").onclick=openSaveWindow;
 
