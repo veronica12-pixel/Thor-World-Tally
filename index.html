@@ -520,6 +520,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @keyframes ssPop{from{transform:scale(.7);opacity:.3}to{transform:none;opacity:1}}
 @keyframes ssTotal{from{transform:translate(-50%,-50%) scale(.3);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.ss-label.pop,.ss-total{animation:none}}
+.city-rows .cr-x:disabled,.off .cr-x{display:none}
+.sheet.is-locked #delBtn,#delBtn[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -591,7 +593,7 @@ const SOURCE="<!doctype html>\n"+document.documentElement.outerHTML;
 const BUILTIN_SYNC={apiKey:"AIzaSyAWWDBNTTDvQI3IktyaCJtxse7s54oxDus",authDomain:"household-tasks-cb3ca.firebaseapp.com",databaseURL:"https://household-tasks-cb3ca-default-rtdb.firebaseio.com",projectId:"household-tasks-cb3ca",storageBucket:"household-tasks-cb3ca.firebasestorage.app",messagingSenderId:"719926406482",appId:"1:719926406482:web:28ccdd630bea4531079e8b"};
 let EMBED_SYNC=BUILTIN_SYNC;try{const el=document.getElementById("syncConfig");if(el)EMBED_SYNC=JSON.parse(el.textContent)||BUILTIN_SYNC}catch(e){EMBED_SYNC=BUILTIN_SYNC}
 let SEED=[],SEED_TRAVELERS=null;try{const el=document.getElementById("seedData");if(el){const d=JSON.parse(el.textContent);if(Array.isArray(d))SEED=d;else if(d){SEED=Array.isArray(d.visits)?d.visits:[];SEED_TRAVELERS=d.travelers||null}}}catch(e){SEED=[]}
-const APP_VERSION="v6.8"; // raise this with every new copy of the app
+const APP_VERSION="v7.0"; // raise this with every new copy of the app
 let appUnlocked=false; // master edit lock, opened from the © 2026 Thor window
 /* ---------- Country data (every place is shown and counted as a country) ---------- */
 const RAW = {
@@ -687,53 +689,92 @@ function syncConfig(){
   return EMBED_SYNC&&EMBED_SYNC.apiKey?EMBED_SYNC:null;
 }
 function loadScript(src){return new Promise((res,rej)=>{const el=document.createElement("script");el.src=src;el.onload=res;el.onerror=()=>rej(new Error("load"));document.head.appendChild(el)})}
+/* changes made while offline wait here (on this device) until the cloud confirms it has them */
+const OUTBOX="countries-visited-outbox";
+function obRead(){try{return JSON.parse(localStorage.getItem(OUTBOX)||"{}")||{}}catch(e){return {}}}
+function obWrite(o){try{Object.keys(o).length?localStorage.setItem(OUTBOX,JSON.stringify(o)):localStorage.removeItem(OUTBOX)}catch(e){}}
+function obApply(arr,ob){const m=new Map(arr.map(v=>[v.id,v]));for(const [id,o] of Object.entries(ob)){if(o.k==="remove")m.delete(id);else m.set(id,{id,...o.b})}return [...m.values()]}
+function localApply(id,op){ // change the copy on this device right away
+  if(op.k==="remove") mem=mem.filter(v=>v.id!==id); else {mem=mem.filter(v=>v.id!==id);mem.push({id,...op.b})}
+  persist(); visits=mem.slice(); render();
+}
+function fullAfter(id,p){const cur=mem.find(v=>v.id===id)||{};const {id:_i,...rest}=cur;return {...rest,...p}}
 async function cloudStore(cfg){
   if(!window.firebase){await loadScript(FB+"firebase-app-compat.js");await loadScript(FB+"firebase-database-compat.js")}
   const app=firebase.apps.find(a=>a.name==="cwv")||firebase.initializeApp(cfg,"cwv");
-  const ref=app.database().ref(COLL+"/visits"), tref=app.database().ref(COLL+"/settings/travelers");
+  const db=app.database(), ref=db.ref(COLL+"/visits"), tref=db.ref(COLL+"/settings/travelers");
   const fail=e=>{showSync(/permission/i.test((e&&(e.code||e.message))||"")?"Sync blocked by your Firebase rules. Add countriesVisited to the rules.":"Sync problem. Changes are kept and will retry.")};
   const clean=o=>JSON.parse(JSON.stringify(o)); // Realtime Database refuses undefined values
-  // writes return right away; Firebase keeps them and sends when online
+  let ob=obRead(), connected=false, synced=false;
+  const offlineNote=()=>showSync(Object.keys(ob).length?"Offline · your changes are saved and will sync when you're back online":"Offline · showing the copy saved on this device");
+  function send(id,op){
+    const seq=Date.now()+"-"+Math.random().toString(36).slice(2,7); ob[id]={...op,seq}; obWrite(ob);
+    const p=op.k==="remove"?ref.child(id).remove():op.p?ref.child(id).update(clean({...op.p})):ref.child(id).set(clean(op.b));
+    p.then(()=>{if(ob[id]&&ob[id].seq===seq){delete ob[id];obWrite(ob);if(connected)showSync()}}).catch(fail);
+    if(!connected) offlineNote();
+  }
   return {
     shared:true, cloud:true,
     start(cb){
+      cb(mem.slice()); // show the copy on this device at once, even with no connection
+      setTimeout(()=>{if(!connected)offlineNote()},2500);
       let firstT=true;
       tref.on("value",snap=>{
         const t=cleanTravelers(snap.val());
         if(t){travelers=t;saveTravelersLocal(t);render()}
-        else if(firstT){tref.set(travelers).catch(fail)} // first device to connect shares its travelers
+        else if(firstT&&connected){tref.set(travelers).catch(fail)} // first device to connect shares its travelers
         firstT=false;
       },fail);
       let first=true;
-      ref.on("value",snap=>{
+      const onValue=snap=>{
+        if(!connected&&!synced) return; // before the first real download, ignore half-lists built only from this device's own changes
+        synced=true;
         const val=snap.val()||{};
-        const arr=Object.entries(val).map(([id,v])=>({id,...v}));
+        let arr=Object.entries(val).map(([id,v])=>({id,...v}));
         if(first){
           first=false;
           const MK="countries-visited-merged-"+(cfg.projectId||"db");
           let merged=false;try{merged=localStorage.getItem(MK)==="1"}catch(e){}
           if(!merged){ // this device's first connection: add whatever it had that the cloud doesn't
             const ids=new Set(arr.map(v=>v.id));
-            for(const v of mem) if(!ids.has(v.id)){const {id,...b}=v;ref.child(id).set(clean(b)).catch(fail);arr.push(v)}
+            for(const v of mem) if(!ids.has(v.id)){const {id,...b}=v;send(id,{k:"set",b});arr.push(v)}
             try{localStorage.setItem(MK,"1")}catch(e){}
           }
         }
+        arr=obApply(arr,ob); // changes not yet confirmed stay on top
         mem=arr.slice(); persist(); // keep a copy on this device too
-        cb(arr); showSync();
-      },fail);
+        cb(arr); if(connected)showSync(); else offlineNote();
+      };
+      ref.on("value",onValue,fail);
+      db.ref(".info/connected").on("value",s=>{
+        connected=!!s.val();
+        if(connected){showSync(); if(!synced) ref.once("value").then(onValue).catch(()=>{})}
+        else offlineNote();
+      });
+      // changes made offline in an earlier visit go up now (Firebase sends them once connected)
+      for(const [id,o] of Object.entries(ob)) send(id,o);
     },
-    async set(id,b){ref.child(id).set(clean({...b,updatedAt:Date.now()})).catch(fail)},
-    async update(id,p){ref.child(id).update(clean({...p,updatedAt:Date.now()})).catch(fail)},
-    async remove(id){ref.child(id).remove().catch(fail)},
+    async set(id,b){const op={k:"set",b:{...b,updatedAt:Date.now()}};localApply(id,op);send(id,op)},
+    async update(id,p){const pp={...p,updatedAt:Date.now()},op={k:"set",b:fullAfter(id,pp),p:pp};localApply(id,op);send(id,op)},
+    async remove(id){const op={k:"remove"};localApply(id,op);send(id,op)},
     async saveTravelers(list){travelers=list;saveTravelersLocal(list);render();tref.set(list).catch(fail)}
   };
 }
+// when the sync code itself can't load (no connection), changes are kept on this device and queued for the cloud
+const offlineStore={
+  shared:false,
+  start(cb){cb(mem.slice())},
+  async set(id,b){const op={k:"set",b:{...b,updatedAt:Date.now()}};localApply(id,op);const o=obRead();o[id]=op;obWrite(o);showSync("Offline · your changes are saved and will sync when you're back online")},
+  async update(id,p){const op={k:"set",b:fullAfter(id,{...p,updatedAt:Date.now()})};localApply(id,op);const o=obRead();o[id]=op;obWrite(o);showSync("Offline · your changes are saved and will sync when you're back online")},
+  async remove(id){localApply(id,{k:"remove"});const o=obRead();o[id]={k:"remove"};obWrite(o);showSync("Offline · your changes are saved and will sync when you're back online")},
+  async saveTravelers(list){travelers=list;saveTravelersLocal(list);render()}
+};
 function persistSeed(){if(SEED.length&&canPersist){try{localStorage.setItem(LS_KEY,JSON.stringify(mem))}catch(e){}}}
 async function boot(){
   const cfg=syncConfig();
   if(cfg){
     showSync("Connecting to sync…");
-    try{store=await cloudStore(cfg)}catch(e){store=localStore;showSync("Offline · showing the copy saved on this device")}
+    try{store=await cloudStore(cfg)}catch(e){store=offlineStore;showSync("Offline · showing the copy saved on this device")}
   } else { store=localStore; persistSeed(); }
   if(!store.cloud&&!cfg) showSync();
   store.start(arr=>{visits=arr;render()});
@@ -1264,12 +1305,11 @@ function openEdit(id){
     <div class="times-row"><span class="lbl" id="timesLbl">Times visited</span><div class="stepper" role="group" aria-labelledby="timesLbl"><button type="button" class="stp" id="tMinus" aria-label="One less">−</button><span class="stp-n" id="tVal" aria-live="polite" style="${styleOf(v.who)}"></span><button type="button" class="stp" id="tPlus" aria-label="One more">+</button></div></div>
     <div><label class="lbl" for="editCity">Cities and dates</label><div id="editCities" data-input-id="editCity"></div></div>
     <div class="actions sticky-actions">
-      <button class="lockbtn" id="lockBtn" type="button"></button>
       <button class="btn danger" id="delBtn" type="button">Delete</button>
       <button class="btn primary" id="saveEdit" type="button">Save</button>
     </div>
   </div></div>`;
-  const lb=host.querySelector("#lockBtn"), line=host.querySelector("#lockLine");
+  const line=host.querySelector("#lockLine");
   const cityBox=cityEditor(host.querySelector("#editCities"),citiesOf(v));
   let times=timesOf(v); const tVal=host.querySelector("#tVal");
   const paintT=()=>{tVal.textContent=times;host.querySelector("#tMinus").disabled=!editable()||times<=1;host.querySelector("#tPlus").disabled=!editable()||times>=99};
@@ -1278,15 +1318,13 @@ function openEdit(id){
   const fields=[host.querySelector("#delBtn"),host.querySelector("#saveEdit")];
   function paint(){
     const ok=editable(); fields.forEach(f=>f.disabled=!ok); cityBox.setDisabled(!ok); paintT();
-    if(!autoLocked){lb.disabled=true;lb.dataset.state="open";lb.innerHTML=UNLOCK_SVG;lb.setAttribute("aria-label","Editable");
-      line.innerHTML=`${UNLOCK_SVG}<span>Editable for ${hoursLeft} more ${hoursLeft===1?"hour":"hours"}, then it locks.</span>`}
-    else if(appUnlocked){lb.disabled=false;lb.dataset.state="open";lb.innerHTML=UNLOCK_SVG;lb.setAttribute("aria-label","Lock editing");
-      line.innerHTML=`${UNLOCK_SVG}<span>Editing unlocked. Tap the lock to lock it again.</span>`}
-    else{lb.disabled=false;lb.dataset.state="locked";lb.innerHTML=LOCK_SVG;lb.setAttribute("aria-label","Unlock editing");
-      line.innerHTML=`${LOCK_SVG}<span>Locked after 48 hours. Tap the lock to edit.</span>`}
+    // when locked, the delete buttons are not shown at all; they come back once editing is unlocked
+    host.querySelector("#delBtn").hidden=!ok; host.querySelector(".sheet").classList.toggle("is-locked",!ok);
+    if(!autoLocked) line.innerHTML=`${UNLOCK_SVG}<span>Editable for ${hoursLeft} more ${hoursLeft===1?"hour":"hours"}, then it locks.</span>`;
+    else if(appUnlocked) line.innerHTML=`${UNLOCK_SVG}<span>Editing unlocked. Lock it again with the lock in the Save window.</span>`;
+    else line.innerHTML=`${LOCK_SVG}<span>Locked after 48 hours. To edit or delete, unlock with the lock in the Save window.</span>`;
   }
   paint();
-  lb.onclick=()=>{setUnlocked(!appUnlocked);delArm=false;host.querySelector("#delBtn").textContent="Delete";paint()};
   host.querySelector("#closeEdit").onclick=closeSheet;
   host.querySelector("#delBtn").onclick=async e=>{
     if(!delArm){delArm=true;e.target.textContent="Tap again to delete";return}
@@ -1660,6 +1698,8 @@ document.getElementById("viewList").addEventListener("click",e=>{
 
 render();
 boot();
+// offline: a small helper file (sw.js, next to index.html) keeps a copy of the app so it opens with no connection
+if("serviceWorker" in navigator&&location.protocol==="https:"){addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})})}
 </script>
 <script>(function(){var b=document.getElementById("toTop");if(!b)return;function u(){b.classList.toggle("show",(window.scrollY||document.documentElement.scrollTop)>window.innerHeight*.8)}window.addEventListener("scroll",u,{passive:true});u();b.addEventListener("click",function(){var r=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;window.scrollTo({top:0,behavior:r?"auto":"smooth"})})})();</script>
 </body>
