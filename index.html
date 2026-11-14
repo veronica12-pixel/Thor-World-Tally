@@ -522,6 +522,23 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 @media (prefers-reduced-motion:reduce){.ss-label.pop,.ss-total{animation:none}}
 .city-rows .cr-x:disabled,.off .cr-x{display:none}
 .sheet.is-locked #delBtn,#delBtn[hidden]{display:none}
+.month-wrap{position:relative;display:block;min-width:0}
+.month-wrap .city-month{width:100%}
+.month-wrap:not(.has-val) .city-month{color:transparent}
+.month-wrap:not(.has-val) .city-month::-webkit-datetime-edit{color:transparent}
+.month-ph{position:absolute;left:16px;right:40px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted,#8a86a0);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.month-wrap.has-val .month-ph{display:none}
+.flag-zoom{border:0;background:none;padding:0;margin:0;cursor:zoom-in;display:inline-flex;border-radius:6px;-webkit-tap-highlight-color:transparent}
+.flag-zoom:active{transform:scale(.94)}
+.flag-zoom:focus-visible{outline:2.5px solid var(--ink);outline-offset:3px}
+.bigflag{position:fixed;inset:0;z-index:120;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:max(16px,env(safe-area-inset-top,0px)) 16px max(16px,env(safe-area-inset-bottom,0px));cursor:zoom-out;animation:bfIn .22s ease-out;outline:none}
+.bigflag.out{opacity:0;transition:opacity .18s}
+.bf-emo{font-size:min(88vw,62vh);line-height:1;font-family:"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif}
+.bf-img{width:min(94vw,120vh);max-height:70vh;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 6px 14px rgba(40,30,80,.18))}
+.bf-name{font-size:26px;font-weight:800;color:var(--ink);text-align:center}
+.bf-tip{font-size:14px;color:var(--muted)}
+@keyframes bfIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bigflag{animation:none}}
 </style>
 </head>
 <body>
@@ -593,7 +610,7 @@ const SOURCE="<!doctype html>\n"+document.documentElement.outerHTML;
 const BUILTIN_SYNC={apiKey:"AIzaSyAWWDBNTTDvQI3IktyaCJtxse7s54oxDus",authDomain:"household-tasks-cb3ca.firebaseapp.com",databaseURL:"https://household-tasks-cb3ca-default-rtdb.firebaseio.com",projectId:"household-tasks-cb3ca",storageBucket:"household-tasks-cb3ca.firebasestorage.app",messagingSenderId:"719926406482",appId:"1:719926406482:web:28ccdd630bea4531079e8b"};
 let EMBED_SYNC=BUILTIN_SYNC;try{const el=document.getElementById("syncConfig");if(el)EMBED_SYNC=JSON.parse(el.textContent)||BUILTIN_SYNC}catch(e){EMBED_SYNC=BUILTIN_SYNC}
 let SEED=[],SEED_TRAVELERS=null;try{const el=document.getElementById("seedData");if(el){const d=JSON.parse(el.textContent);if(Array.isArray(d))SEED=d;else if(d){SEED=Array.isArray(d.visits)?d.visits:[];SEED_TRAVELERS=d.travelers||null}}}catch(e){SEED=[]}
-const APP_VERSION="v7.0"; // raise this with every new copy of the app
+const APP_VERSION="v7.2"; // raise this with every new copy of the app
 let appUnlocked=false; // master edit lock, opened from the © 2026 Thor window
 /* ---------- Country data (every place is shown and counted as a country) ---------- */
 const RAW = {
@@ -795,15 +812,18 @@ const latestMonth=l=>l.map(c=>c.month).filter(Boolean).sort().pop()||"";
 function cityEditor(root,initial){
   let list=sortCities(initial);
   const id=root.dataset.inputId||"";
-  root.innerHTML=`<div class="city-add"><input class="field city-name" id="${id}" type="text" placeholder="City" maxlength="60" enterkeyhint="done" aria-label="City"><input class="field city-month" type="month" aria-label="Date of visit"><button type="button" class="btn add-city">Add</button></div><ul class="city-rows"></ul>`;
+  root.innerHTML=`<div class="city-add"><input class="field city-name" id="${id}" type="text" placeholder="City" maxlength="60" enterkeyhint="done" aria-label="City"><label class="month-wrap"><input class="field city-month" type="month" aria-label="Date of visit, month and year"><span class="month-ph" aria-hidden="true">Date (month &amp; year)</span></label><button type="button" class="btn add-city">Add</button></div><ul class="city-rows"></ul>`;
   const inp=root.querySelector(".city-name"), mon=root.querySelector(".city-month"), btn=root.querySelector(".add-city"), box=root.querySelector(".city-rows");
+  // the date box says what goes in it until a month is picked
+  const markMon=()=>mon.parentElement.classList.toggle("has-val",!!mon.value);
+  for(const ev of ["input","change","blur"]) mon.addEventListener(ev,markMon);
   let off=false;
   const paint=()=>{box.innerHTML=list.length?list.map((c,i)=>`<li class="city-row"><span class="cr-name">${esc(c.name||"Visit")}</span><span class="cr-date">${c.month?esc(fmtMonth(c.month)):"No date"}</span><button type="button" class="cr-x" data-i="${i}" aria-label="Remove ${esc(c.name||"visit")}" ${off?"disabled":""}>×</button></li>`).join(""):`<li class="city-hint">No cities yet. Type a city, pick its date, tap Add.</li>`};
   const addTyped=()=>{
     const names=splitCities(inp.value), m=mon.value;
     if(!names.length&&!m) return false;
     const add=(names.length?names:[""]).map(n=>({name:n,month:m}));
-    list=sortCities(mergeCities(list,add)); inp.value=""; mon.value=""; paint(); return true;
+    list=sortCities(mergeCities(list,add)); inp.value=""; mon.value=""; markMon(); paint(); return true;
   };
   btn.onclick=()=>{addTyped();inp.focus()};
   inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addTyped()}});
@@ -1179,6 +1199,27 @@ function openSlideshow(id){
   box.querySelector('[data-ss="close"]').focus();
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-show]");if(b){e.preventDefault();e.stopPropagation();openSlideshow(b.dataset.show)}},true);
+/* ---------- Big flag: tap the flag in an entry to see it full screen, tap again to close ---------- */
+let FLAG_EMOJI_OK=null;
+function flagEmoji(iso){
+  if(!/^[A-Z]{2}$/.test(iso))return "";
+  if(FLAG_EMOJI_OK===null){try{const cv=document.createElement("canvas");cv.width=cv.height=32;const x=cv.getContext("2d");x.textBaseline="top";x.font="28px sans-serif";x.fillText("\u{1F1EE}\u{1F1F9}",0,0);
+    const d=x.getImageData(0,0,32,32).data;let col=0;for(let k=0;k<d.length;k+=4)if(d[k+3]>100&&Math.abs(d[k]-d[k+1])>60)col++;
+    FLAG_EMOJI_OK=col>40&&/iPhone|iPad|Macintosh|Android/.test(navigator.userAgent)}catch(e){FLAG_EMOJI_OK=false}}
+  return FLAG_EMOJI_OK?String.fromCodePoint(...[...iso].map(ch=>0x1F1E6+ch.charCodeAt(0)-65)):"";
+}
+function openBigFlag(iso){
+  const C=COUNTRIES[iso]; if(!C)return;
+  document.querySelectorAll(".bigflag").forEach(e=>e.remove());
+  const emo=flagEmoji(iso), from=document.activeElement;
+  const box=document.createElement("div"); box.className="bigflag"; box.setAttribute("role","dialog"); box.setAttribute("aria-modal","true"); box.setAttribute("aria-label",`Flag of ${C.name}. Tap to close.`); box.tabIndex=-1;
+  box.innerHTML=`${emo?`<span class="bf-emo" aria-hidden="true">${emo}</span>`:(FLAGS[iso]?`<img class="bf-img" alt="" src="data:image/png;base64,${FLAGS[iso]}">`:"")}<b class="bf-name">${esc(C.name)}</b><span class="bf-tip">Tap anywhere to close</span>`;
+  const close=()=>{box.classList.add("out");document.removeEventListener("keydown",key);setTimeout(()=>box.remove(),180);try{from&&from.focus()}catch(e){}};
+  const key=e=>{if(e.key==="Escape"||e.key==="Enter"||e.key===" "){e.preventDefault();close()}};
+  box.addEventListener("click",close); document.addEventListener("keydown",key);
+  document.body.appendChild(box); box.focus();
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-bigflag]");if(b){e.preventDefault();openBigFlag(b.dataset.bigflag)}});
 /* ---------- Nav ---------- */
 function setView(v){view=v;
   document.getElementById("viewList").hidden=v!=="list";
@@ -1300,7 +1341,7 @@ function openEdit(id){
   host.innerHTML=`<div class="scrim"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="editTitle">
     <div class="grab"></div>
     <div class="sheet-head"><h2 id="editTitle">${esc(nameOf(v.who))}'s entry</h2><button class="x" id="closeEdit" type="button">Close</button></div>
-    <div class="picked"><span class="flag" aria-hidden="true">${flag(c.iso)}</span>${esc(c.name)}</div>
+    <div class="picked"><button type="button" class="flag flag-zoom" data-bigflag="${c.iso}" aria-label="Show the ${esc(c.name)} flag full screen">${flag(c.iso)}</button>${esc(c.name)}</div>
     <div class="lockline" id="lockLine"></div>
     <div class="times-row"><span class="lbl" id="timesLbl">Times visited</span><div class="stepper" role="group" aria-labelledby="timesLbl"><button type="button" class="stp" id="tMinus" aria-label="One less">−</button><span class="stp-n" id="tVal" aria-live="polite" style="${styleOf(v.who)}"></span><button type="button" class="stp" id="tPlus" aria-label="One more">+</button></div></div>
     <div><label class="lbl" for="editCity">Cities and dates</label><div id="editCities" data-input-id="editCity"></div></div>
