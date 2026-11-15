@@ -614,6 +614,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .srch-who i{font-style:normal;font-size:12px;font-weight:700;color:var(--tc);background:var(--tp);border-radius:999px;padding:2px 8px}
 .srch-pick{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 2px}
 .sun{right:calc(max(10px,env(safe-area-inset-right,0px)) + 50px)!important} /* leaves the top corner for the search button */
+.ym{display:grid;grid-template-columns:1.25fr 1fr;gap:8px;min-width:0}
+.ym select{min-width:0;min-height:46px;-webkit-appearance:none;appearance:none;padding-right:30px;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%237c7590' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;background-size:12px 8px}
+.ym select.empty{color:var(--muted)}
+.ym select option{color:var(--ink)}
+.ym select:disabled{cursor:default}
 </style>
 </head>
 <body>
@@ -686,7 +693,7 @@ const SOURCE="<!doctype html>\n"+document.documentElement.outerHTML;
 const BUILTIN_SYNC={apiKey:"AIzaSyAWWDBNTTDvQI3IktyaCJtxse7s54oxDus",authDomain:"household-tasks-cb3ca.firebaseapp.com",databaseURL:"https://household-tasks-cb3ca-default-rtdb.firebaseio.com",projectId:"household-tasks-cb3ca",storageBucket:"household-tasks-cb3ca.firebasestorage.app",messagingSenderId:"719926406482",appId:"1:719926406482:web:28ccdd630bea4531079e8b"};
 let EMBED_SYNC=BUILTIN_SYNC;try{const el=document.getElementById("syncConfig");if(el)EMBED_SYNC=JSON.parse(el.textContent)||BUILTIN_SYNC}catch(e){EMBED_SYNC=BUILTIN_SYNC}
 let SEED=[],SEED_TRAVELERS=null;try{const el=document.getElementById("seedData");if(el){const d=JSON.parse(el.textContent);if(Array.isArray(d))SEED=d;else if(d){SEED=Array.isArray(d.visits)?d.visits:[];SEED_TRAVELERS=d.travelers||null}}}catch(e){SEED=[]}
-const APP_VERSION="v7.7"; // raise this with every new copy of the app
+const APP_VERSION="v7.8"; // raise this with every new copy of the app
 let appUnlocked=false; // master edit lock, opened from the © 2026 Thor window
 /* ---------- Country data (every place is shown and counted as a country) ---------- */
 const RAW = {
@@ -886,19 +893,25 @@ function citiesOf(v){
 const sameCity=(a,b)=>a.name.toLowerCase()===b.name.toLowerCase()&&a.month===b.month;
 function mergeCities(a,b){const out=[...a];for(const c of b)if(!out.some(x=>sameCity(x,c)))out.push(c);return out}
 const sortCities=l=>[...l].sort((x,y)=>(x.month||"9999").localeCompare(y.month||"9999")||x.name.localeCompare(y.name));
+const YEARS_OPT=(()=>{let o="";for(let y=new Date().getFullYear()+3;y>=1940;y--)o+=`<option value="${y}">${y}</option>`;return o})();
 const latestMonth=l=>l.map(c=>c.month).filter(Boolean).sort().pop()||"";
 function cityEditor(root,initial){
   let list=sortCities(initial);
   const id=root.dataset.inputId||"";
-  root.innerHTML=`<div class="city-add"><input class="field city-name" id="${id}" type="text" placeholder="City" maxlength="60" enterkeyhint="done" aria-label="City"><label class="month-wrap"><input class="field city-month" type="month" aria-label="Date of visit, month and year"><span class="month-ph" aria-hidden="true">Date (month &amp; year)</span></label><button type="button" class="btn add-city">Add</button></div><ul class="city-rows"></ul>`;
-  const inp=root.querySelector(".city-name"), mon=root.querySelector(".city-month"), btn=root.querySelector(".add-city"), box=root.querySelector(".city-rows");
-  // the date box says what goes in it until a month is picked
-  const markMon=()=>mon.parentElement.classList.toggle("has-val",!!mon.value);
-  for(const ev of ["input","change","blur"]) mon.addEventListener(ev,markMon);
+  root.innerHTML=`<div class="city-add"><input class="field city-name" id="${id}" type="text" placeholder="City" maxlength="60" enterkeyhint="done" aria-label="City"><div class="ym" role="group" aria-label="Date of visit"><select class="field ym-m" aria-label="Month of visit"><option value="">Month</option>${MONTHS.map((m,i)=>`<option value="${String(i+1).padStart(2,"0")}">${m}</option>`).join("")}</select><select class="field ym-y" aria-label="Year of visit"><option value="">Year</option>${YEARS_OPT}</select></div><button type="button" class="btn add-city">Add</button></div><ul class="city-rows"></ul>`;
+  const inp=root.querySelector(".city-name"), btn=root.querySelector(".add-city"), box=root.querySelector(".city-rows");
+  // date = a Month list and a Year list: works the same on the iPhone (wheels) and on a computer (drop-downs, or type the first letters)
+  const selM=root.querySelector(".ym-m"), selY=root.querySelector(".ym-y");
+  const mon={get value(){return selY.value?(selY.value+(selM.value?"-"+selM.value:"")):""},
+    set value(v){const [y,m]=String(v||"").split("-");selY.value=y||"";selM.value=m||""},
+    set disabled(d){selM.disabled=d;selY.disabled=d}};
+  const markMon=()=>{selM.classList.toggle("empty",!selM.value);selY.classList.toggle("empty",!selY.value)};
+  selM.addEventListener("change",()=>{markMon();if(selM.value&&!selY.value)selY.focus()}); selY.addEventListener("change",markMon); markMon();
   let off=false;
   const paint=()=>{box.innerHTML=list.length?list.map((c,i)=>`<li class="city-row"><span class="cr-name">${esc(c.name||"Visit")}</span><span class="cr-date">${c.month?esc(fmtMonth(c.month)):"No date"}</span><button type="button" class="cr-x" data-i="${i}" aria-label="Remove ${esc(c.name||"visit")}" ${off?"disabled":""}>×</button></li>`).join(""):`<li class="city-hint">No cities yet. Type a city, pick its date, tap Add.</li>`};
   const addTyped=()=>{
     const names=splitCities(inp.value), m=mon.value;
+    if(selM.value&&!selY.value){toast("Pick the year too");selY.focus();return false}
     if(!names.length&&!m) return false;
     const add=(names.length?names:[""]).map(n=>({name:n,month:m}));
     list=sortCities(mergeCities(list,add)); inp.value=""; mon.value=""; markMon(); paint(); return true;
